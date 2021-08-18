@@ -1,0 +1,28 @@
+'''
+1D FDTD
+计算区域划分为100个网格,入射电磁波为正弦波
+f^{n}=\sin (\omega n \Delta t)=\sin (n 2 \pi f \Delta t)=\sin \left(n 2 \pi \frac{c \Delta t}{\lambda}\right)=\sin \left(n 2 \pi \frac{s}{N}\right)
+'''
+import numpy as np
+import matplotlib.pylab as plt
+
+def mydiff(a):
+    n = a.shape[0]
+    b = np.zeros(n-1)
+    for i in range(n-1):
+        b[i] = a[i+1] - a[i]
+    return b
+
+s = 0.5 #时间稳定因子
+nd = 20 #一个波长内元胞数
+nz = 100 #z方向元胞数量
+e = np.zeros(nz+1) # 电场
+h = np.zeros(nz) # 磁场
+
+for n in range(int(nd/s * 5)):
+    h -= s * mydiff(e)
+    e[1:-1] -= s * mydiff(h)
+    e[0] = np.sin(2 * np.pi * n * (s/nd))
+
+plt.plot(np.linspace(0, 100, nz + 1), e)
+plt.show()
