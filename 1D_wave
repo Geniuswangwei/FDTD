@@ -17,7 +17,7 @@ s = 0.5 #时间稳定因子
 nd = 20 #一个波长内元胞数
 nz = 100 #z方向元胞数量
 e = np.zeros(nz+1) # 电场
-h = np.zeros(nz) # 磁场
+h = 0 # 磁场
 
 for n in range(int(nd/s * 5)):
     h -= s * mydiff(e)
